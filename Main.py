@@ -1,23 +1,53 @@
 
-from cgitb import text
-import tkinter
-# import pygame
 from world.World import World
-import tkinter as tk
 from tkinter import *
 
 
 class Frames(object):
     
-    def newFrame(self):
+    def game(self):
         newwin = Toplevel(root)
+        newwin.focus_set()
         worldSize = int(self.query.get())
+        if(worldSize < 10):
+            worldSize = 10
+        if(worldSize > 30):
+            worldSize = 30
         newwin.title(f'size: {worldSize}')
-        size = 200*self.query.get()
-        newwin.geometry(f"{100+int(size)}x{size}")
-        world = World(worldSize, 2)
+        newwin.state('zoomed')
+        world = World(worldSize, 1)
         world.populate()
+        humanStrength = StringVar()
+        humanStrength.set(str(world.human.getStrength()))
         tileMatrix = [[]*worldSize for i in range(worldSize)]
+
+        @staticmethod
+        def left_key(event):
+            world.human.setDirectionY(-1)
+
+        @staticmethod
+        def right_key(event):
+            world.human.setDirectionY(1)
+
+        @staticmethod
+        def up_key(event):
+            world.human.setDirectionX(-1)
+
+        @staticmethod
+        def down_key(event):
+            world.human.setDirectionX(1)
+
+        @staticmethod
+        def space_key(event):
+            world.nextTurn()
+            updateTiles()
+
+        newwin.bind('<Left>', left_key)
+        newwin.bind('<Right>', right_key)
+        newwin.bind('<Up>', up_key)
+        newwin.bind('<Down>', down_key)
+        newwin.bind('<space>', space_key)
+
 
         def updateTiles():
             board = world.getBoard()
@@ -59,6 +89,40 @@ class Frames(object):
                 tileMatrix[i][j].create()
         updateTiles()
 
+        def nextTurn():
+            world.nextTurn()
+            updateTiles()
+            updateStrengthDisplay()
+
+        def power():
+            world.human.usePotion()
+            updateStrengthDisplay()
+
+        def save():
+            world.saveToFile("save.txt")
+
+        def load():
+            world.loadFromFile("save.txt")
+            updateTiles()
+
+        def updateStrengthDisplay():
+            humanStrength.set(str(world.human.getStrength()))
+
+        nextTurnButton = Button(newwin, text="Next turn", command=nextTurn)
+        nextTurnButton.grid(row=0, column=1 + worldSize)
+
+        powerButton = Button(newwin, text="Use potion", command=power)
+        powerButton.grid(row=1, column=1 + worldSize)
+
+        saveButton = Button(newwin, text="Save", command=save)
+        saveButton.grid(row=2, column=1 + worldSize)
+
+        loadButton = Button(newwin, text="Load", command=load)
+        loadButton.grid(row=3, column=1 + worldSize)
+
+        strengthDisplay = Label(newwin, text="Strength: " + humanStrength)
+        strengthDisplay.grid(row=4, column=1 + worldSize)
+
         def chooseOrganism(x, y, world):
             choose = Toplevel(root)
             choose.geometry('200x400')
@@ -70,7 +134,7 @@ class Frames(object):
                 button.grid(row=i, column=0)
 
             def byName(i):
-                if i == "Humman":
+                if i == "Human":
                     world.addHuman(x, y)
                 elif i == "Antelope":
                     world.addAntelope(x, y)
@@ -96,6 +160,7 @@ class Frames(object):
                     world.addCyberSheep(x, y)            
                 choose.destroy()
                 updateTiles()
+                newwin.focus_set()
 
     def mainFrame(self, root):
         self.query = StringVar()  # passing parameter via query var
@@ -104,7 +169,7 @@ class Frames(object):
             if len(self.query.get()) == 0:
                 print('error')
             else:
-                self.newFrame()
+                self.game()
                 
         root.title('Main win')
         root.geometry("300x300")
