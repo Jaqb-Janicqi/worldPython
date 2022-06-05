@@ -31,6 +31,9 @@ class Human(Animal):
         self.strength = 10
         self.world.events.append("{} has used a potion".format(self.name))
 
+    def getStrength(self):
+        return self.strength
+
     def action(self):
         if(self.strength == self.baseStrength):
             self.world.events.append("{} has a potion".format(self.name))

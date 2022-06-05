@@ -12,7 +12,8 @@ from world.organisms.plants.species.Grass import Grass
 from world.organisms.plants.species.Guarana import Guarana
 from world.organisms.plants.species.SosnowskyHogweed import SosnowskyHogweed
 from world.organisms.plants.species.SowThistle import SowThistle
-from world.organisms.plants.species.Belladona import Belladona  ##from world.organism.plants.species import *
+from world.organisms.plants.species.Belladona import Belladona 
+# from world.organisms.plants.species import *
 
 
 class World:
@@ -57,12 +58,11 @@ class World:
                     return
                 newOrganism = Human(self, x, y)
                 self.human = newOrganism
-                for x in range(0, self.spawnProtectSize):
-                    for y in range(0, self.spawnProtectSize):
-                        if(self.isFree(self.human.getx() - x, self.human.gety() - y)):
-                            if(self.human.getx() - x > 0 and self.human.gety() - y > 0):
-                                if(self.human.getx() - x < self.size and self.human.gety() - y < self.size):
-                                    self.addOrganism(1, False, self.human.getx() - x, self.human.gety() - y)
+                # for x in range(-self.spawnProtectSize, self.spawnProtectSize):
+                #     for y in range(-self.spawnProtectSize, self.spawnProtectSize):
+                #         if(self.isFree(self.human.getx() + x, self.human.gety() + y)):
+                #             if(not (x == self.human.getx() and y == self.human.gety())):
+                #                 self.addOrganism(1, False, self.human.getx() + x, self.human.gety() + y)
             elif(id == 1):
                 newOrganism = Wolf(self, x, y)
             elif(id == 2):
@@ -135,8 +135,8 @@ class World:
         self.addOrganism(id, animal, x, y)
 
     def populate(self):
+        self.spawnOrganism(9999, True)      #human
         for i in range (0, int(self.size/5)):
-            self.spawnOrganism(9999, True)      #human
             
             self.spawnOrganism(1, True)       #add animals
             self.spawnOrganism(2, True)
