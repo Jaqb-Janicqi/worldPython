@@ -12,7 +12,7 @@ from world.organisms.plants.species.Grass import Grass
 from world.organisms.plants.species.Guarana import Guarana
 from world.organisms.plants.species.SosnowskyHogweed import SosnowskyHogweed
 from world.organisms.plants.species.SowThistle import SowThistle
-from world.organisms.plants.species.Belladona import Belladona
+from world.organisms.plants.species.Belladona import Belladona  ##from world.organism.plants.species import *
 
 
 class World:
@@ -22,6 +22,16 @@ class World:
         self.events = []
         self.human = None
         self.spawnProtectSize = spawnProtectSize
+
+    def getBoard(self):
+        matrix = [[0]*self.size for i in range(self.size)]
+        for organism in self.organisms:
+            if(organism.isAlive()):
+                matrix[organism.getx()][organism.gety()] = organism.draw()
+        return matrix
+
+    def getEvents(self):
+        return self.events
 
     def isFree(self, x, y):
         if(x < 0 or y < 0 or x >= self.size or y >= self.size):
@@ -52,8 +62,7 @@ class World:
                         if(self.isFree(self.human.getx() - x, self.human.gety() - y)):
                             if(self.human.getx() - x > 0 and self.human.gety() - y > 0):
                                 if(self.human.getx() - x < self.size and self.human.gety() - y < self.size):
-                                    self.addOrganism(
-                                        1, False, self.human.getx() - x, self.human.gety() - y)
+                                    self.addOrganism(1, False, self.human.getx() - x, self.human.gety() - y)
             elif(id == 1):
                 newOrganism = Wolf(self, x, y)
             elif(id == 2):
