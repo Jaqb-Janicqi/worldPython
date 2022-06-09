@@ -14,7 +14,8 @@ class Frames(object):
         if(worldSize > 30):
             worldSize = 30
         newwin.title(f'size: {worldSize}')
-        newwin.attributes('-zoomed', True)
+        newwin.attributes('-zoomed', True) # fullscreen depending on windows/linux
+        #newwin.state('zoomed')
         world = World(worldSize, 1)
         world.populate()
         humanStrength = StringVar()
