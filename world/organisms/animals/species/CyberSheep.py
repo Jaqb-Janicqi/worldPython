@@ -47,6 +47,7 @@ class CyberSheep(Animal):
                 self.y -= 1
             else:
                 self.y += 1
+        self.checkKraksa()
 
     def action(self):
         closestWeed = self.findWeeds()

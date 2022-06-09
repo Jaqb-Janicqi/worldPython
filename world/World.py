@@ -1,6 +1,7 @@
 
 import os
 import random
+from xmlrpc.client import Boolean
 from world.organisms.animals.species.Antelope import Antelope
 from world.organisms.animals.species.CyberSheep import CyberSheep
 from world.organisms.animals.species.Fox import Fox
@@ -175,6 +176,12 @@ class World:
                 file.write(str(organism.id) + " " + str(organism.animal) + " " + str(organism.x) + " " + str(organism.y) + " " + str(organism.strength) + "\n")
         file.close()
 
+    def toBool(self, s):
+        if s == 'True':
+            return True
+        elif s == 'False':
+            return False
+
     def loadFromFile(self, fileName):
         if not os.path.isfile(fileName):
             return False
@@ -186,7 +193,7 @@ class World:
         self.human = None
         for line in file:
             line = line.split(" ")
-            self.addOrganism(int(line[0]), bool(line[1]), int(line[2]), int(line[3]))
+            self.addOrganism(int(line[0]), self.toBool(line[1]), int(line[2]), int(line[3]))
             self.organisms[-1].strength = int(line[4])
         file.close()
         return True

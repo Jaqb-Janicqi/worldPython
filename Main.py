@@ -8,9 +8,9 @@ class Frames(object):
         newwin = Toplevel(root)
         newwin.focus_set()
         worldSize = None
-        newwin.title(f'size: {worldSize}')
-        newwin.attributes('-zoomed', True) # fullscreen depending on windows/linux
-        #newwin.state('zoomed')
+        newwin.title(f'WORLD')
+        #newwin.attributes('-zoomed', True) # fullscreen depending on windows/linux
+        newwin.state('zoomed')
 
         if(restore):
             world = World(10, 1)
@@ -20,8 +20,12 @@ class Frames(object):
                 world.populate()
             worldSize = world.getSize()
         else:
+            worldSize = int(self.query.get())
+            if(worldSize < 10):
+                worldSize = 10
+            if(worldSize > 30):
+                worldSize = 30
             world = World(worldSize, 1)
-            worldSize = world.getSize()
             world.populate()
             
         humanStrength = StringVar()
@@ -114,6 +118,15 @@ class Frames(object):
         def updateStrengthDisplay():
             humanStrength.set(str(world.human.getStrength()))
 
+        def showEvents():
+            events = world.getEvents()
+            window = Toplevel(root)
+            window.title('Events')
+            window.geometry("300x300")
+            for i in range(len(events)):
+                label = Label(window, text=events[i])
+                label.grid(row=i, column=0)
+
         nextTurnButton = Button(newwin, text="Next turn", command=nextTurn)
         nextTurnButton.grid(row=0, column=1 + worldSize)
 
@@ -126,8 +139,11 @@ class Frames(object):
         loadButton = Button(newwin, text="Load", command=load)
         loadButton.grid(row=3, column=1 + worldSize)
 
-        strengthDisplay = Label(newwin, text="Strength: " + humanStrength)
-        strengthDisplay.grid(row=4, column=1 + worldSize)
+        # strengthDisplay = Label(newwin, text="Strength: " + humanStrength)
+        # strengthDisplay.grid(row=5, column=1 + worldSize)
+
+        showEventsButton = Button(newwin, text="Show events", command=showEvents)
+        showEventsButton.grid(row=4, column=1 + worldSize)
 
         def chooseOrganism(x, y, world):
             choose = Toplevel(root)

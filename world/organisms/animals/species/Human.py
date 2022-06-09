@@ -39,8 +39,7 @@ class Human(Animal):
             self.world.events.append("{} has a potion".format(self.name))
         else:
             self.strength -= 1
-            self.world.events.append("{} has {} strength".format(self.name, self.strength))
-
+        self.world.events.append("{} has {} strength".format(self.name, self.strength))
         if(self.x + self.directionX < 0 or self.x + self.directionX >= self.world.size or self.y + self.directionY < 0 or self.y + self.directionY >= self.world.size):
             self.directionX = self.directionX*-1
             self.directionY = self.directionY*-1
