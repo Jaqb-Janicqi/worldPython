@@ -72,8 +72,7 @@ class Frames(object):
         def tooltip_win(pos):
             chooseOrganism(pos[0], pos[1], world)
 
-        root.withdraw()  # hide main menu
-        position_log = []
+        root.withdraw()
 
         class Tile:
             def __init__(self, x, y):
@@ -97,11 +96,9 @@ class Frames(object):
         def nextTurn():
             world.nextTurn()
             updateTiles()
-            updateStrengthDisplay()
 
         def power():
             world.human.usePotion()
-            updateStrengthDisplay()
 
         def save():
             world.saveToFile("save.txt")
@@ -109,9 +106,6 @@ class Frames(object):
         def load():
             world.loadFromFile("save.txt")
             updateTiles()
-
-        def updateStrengthDisplay():
-            humanStrength.set(str(world.human.getStrength()))
 
         def showEvents():
             events = world.getEvents()
@@ -121,6 +115,10 @@ class Frames(object):
             for i in range(len(events)):
                 label = Label(window, text=events[i])
                 label.grid(row=i, column=0)
+
+        def backToMain():
+            newwin.destroy()
+            root.deiconify()
 
         nextTurnButton = Button(newwin, text="Next turn", command=nextTurn)
         nextTurnButton.grid(row=0, column=1 + worldSize)
@@ -137,8 +135,11 @@ class Frames(object):
         showEventsButton = Button(newwin, text="Show events", command=showEvents)
         showEventsButton.grid(row=4, column=1 + worldSize)
 
-        exitButton = Button(newwin, text="Exit", command=root.destroy)
-        exitButton.grid(row=5, column=1 + worldSize)
+        backToInitButton = Button(newwin, text="Back to menu", command=backToMain)
+        backToInitButton.grid(row=5, column=1 + worldSize)
+
+        exitButton = Button(newwin, text="Exit to desktop", command=root.destroy)
+        exitButton.grid(row=6, column=1 + worldSize)
 
         def chooseOrganism(x, y, world):
             choose = Toplevel(root)
