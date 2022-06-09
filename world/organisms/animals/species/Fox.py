@@ -19,8 +19,8 @@ class Fox(Animal):
 
     def move(self):
         freeSpaces = []
-        for x in range(self.x - 1, self.x + 1):
-            for y in range(self.y - 1, self.y + 1):
+        for x in range(self.x - 1, self.x + 2):
+            for y in range(self.y - 1, self.y + 2):
                 if(self.world.isInBounds(x, y) and self.world.isFreeFromStronger(x, y, self.strength)):
                     if(x != y):
                         freeSpaces.append([x, y])

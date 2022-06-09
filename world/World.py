@@ -1,4 +1,5 @@
 
+import math
 import os
 import random
 from xmlrpc.client import Boolean
@@ -37,6 +38,26 @@ class World:
 
     def getEvents(self):
         return self.events
+
+    def findClosestWeed(self, x, y):
+        closestWeed = None
+        closestDistance = None
+
+        for organism in self.organisms:
+            if(organism.getId() == 5 and not organism.isAnimal() and organism.isAlive()):
+                p1 = [x, y]
+                p2 = [organism.getx(), organism.gety()]
+                if(closestWeed == None):
+                    closestDistance = math.dist(p1, p2)
+                    closestWeed = organism
+                else:
+                    if(math.dist(p1, p2) < closestDistance):
+                        closestDistance = math.dist(p1, p2)
+                        closestWeed = organism
+        if(closestWeed != None):
+            return [closestWeed.getx(), closestWeed.gety()]
+        else:
+            return None        
 
     def isFree(self, x, y):
         for organism in self.organisms:

@@ -111,7 +111,7 @@ class Frames(object):
             events = world.getEvents()
             window = Toplevel(root)
             window.title('Events')
-            window.geometry("300x300")
+            window.geometry("350x450")
             for i in range(len(events)):
                 label = Label(window, text=events[i])
                 label.grid(row=i, column=0)
@@ -190,7 +190,7 @@ class Frames(object):
             self.game(True)
                 
         root.title('Main win')
-        root.geometry("300x300")
+        root.geometry("300x100")
         root.resizable(0, 0)
 
         label = Label(root, text='WorldInitializer')
