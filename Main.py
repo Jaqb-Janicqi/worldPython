@@ -4,20 +4,26 @@ from tkinter import *
 
 
 class Frames(object):
-    
-    def game(self):
+    def game(self, restore):
         newwin = Toplevel(root)
         newwin.focus_set()
-        worldSize = int(self.query.get())
-        if(worldSize < 10):
-            worldSize = 10
-        if(worldSize > 30):
-            worldSize = 30
+        worldSize = None
         newwin.title(f'size: {worldSize}')
         newwin.attributes('-zoomed', True) # fullscreen depending on windows/linux
         #newwin.state('zoomed')
-        world = World(worldSize, 1)
-        world.populate()
+
+        if(restore):
+            world = World(10, 1)
+            success = world.loadFromFile("save.txt")
+            if(not success):
+                world = World(20, 1)
+                world.populate()
+            worldSize = world.getSize()
+        else:
+            world = World(worldSize, 1)
+            worldSize = world.getSize()
+            world.populate()
+            
         humanStrength = StringVar()
         humanStrength.set(str(world.human.getStrength()))
         tileMatrix = [[]*worldSize for i in range(worldSize)]
@@ -48,7 +54,6 @@ class Frames(object):
         newwin.bind('<Up>', up_key)
         newwin.bind('<Down>', down_key)
         newwin.bind('<space>', space_key)
-
 
         def updateTiles():
             board = world.getBoard()
@@ -164,13 +169,13 @@ class Frames(object):
                 newwin.focus_set()
 
     def mainFrame(self, root):
-        self.query = StringVar()  # passing parameter via query var
+        self.query = StringVar()
 
-        def click():
-            if len(self.query.get()) == 0:
-                print('error')
-            else:
-                self.game()
+        def newGame():
+            self.game(False)
+        
+        def restoreGame():
+            self.game(True)
                 
         root.title('Main win')
         root.geometry("300x300")
@@ -179,15 +184,14 @@ class Frames(object):
         label = Label(root, text='WorldInitializer')
         label.grid(row=0, column=0)
 
-        button1 = Button(root, text="New game", command=click)
+        button1 = Button(root, text="New game", command=newGame)
         button1.grid(row=1, column=1)
 
         entry1 = Entry(root, textvariable=self.query)
         entry1.grid(row=1, column=0)
 
-        button2 = Button(root, text="Restore game", command=click)
+        button2 = Button(root, text="Restore game", command=restoreGame)
         button2.grid(row=2, column=1)
-
 
 if __name__ == "__main__":
     root = Tk()

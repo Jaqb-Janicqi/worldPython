@@ -24,6 +24,9 @@ class World:
         self.human = None
         self.spawnProtectSize = spawnProtectSize
 
+    def getSize(self):
+        return self.size
+
     def getBoard(self):
         matrix = [[0]*self.size for i in range(self.size)]
         for organism in self.organisms:
@@ -174,7 +177,7 @@ class World:
 
     def loadFromFile(self, fileName):
         if not os.path.isfile(fileName):
-            return
+            return False
         file = open(fileName, "r")
         self.size = int(file.readline())
         self.spawnProtectSize = int(file.readline())
@@ -186,3 +189,4 @@ class World:
             self.addOrganism(int(line[0]), bool(line[1]), int(line[2]), int(line[3]))
             self.organisms[-1].strength = int(line[4])
         file.close()
+        return True

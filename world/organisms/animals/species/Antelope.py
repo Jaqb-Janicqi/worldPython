@@ -49,7 +49,7 @@ class Antelope(Animal):
 
     def collision(self, organism):
         if(self.id == organism.getId() and self.animal == organism.isAnimal()):
-            self.spawnNewOrganism(self, organism, self.world)
+            self.spawnNewOrganism(self)
             return
         if(random.random() < 0.5):
             self.kill()
@@ -63,7 +63,7 @@ class Antelope(Animal):
         freeSpaces = []
         for x in range(self.x - moveRange, self.x + moveRange+1):
             for y in range(self.y - moveRange, self.y + moveRange+1):
-                if(self.world.isInBounds(x, y) and self.world.isFreeFromStronger(x, y)):
+                if(self.world.isInBounds(x, y) and self.world.isFreeFromStronger(x, y, self.strength)):
                     if(x != y):
                         freeSpaces.append([x, y])
 
