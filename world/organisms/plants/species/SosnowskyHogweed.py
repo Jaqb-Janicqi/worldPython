@@ -20,4 +20,4 @@ class SosnowskyHogweed(Plant):
                 if(abs(organism.getx() - self.x) <= 1 and abs(organism.gety() - self.y) <= 1):
                     if(organism.getStrength() < self.strength):
                         organism.kill()
-                        self.world.events.append("{} has killed {}".format(self.name, organism.getName()))
+                        self.world.addEvent("{} has killed {}".format(self.name, organism.getName()))

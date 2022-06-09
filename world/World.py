@@ -26,6 +26,9 @@ class World:
         self.human = None
         self.spawnProtectSize = spawnProtectSize
 
+    def addEvent(self, event):
+        self.events.append(event)
+
     def getSize(self):
         return self.size
 

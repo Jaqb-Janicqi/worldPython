@@ -97,10 +97,10 @@ class Organism():
         else:
             if(self.strength > organism.getStrength()):
                 organism.kill()
-                self.world.events.append("{} killed {}".format(organism.getName(), self.name))
+                self.world.addEvent("{} killed {}".format(organism.getName(), self.name))
             else:
                 self.kill()
-                self.world.events.append("{} was killed by {}".format(self.name, organism.getName()))
+                self.world.addEvent("{} was killed by {}".format(self.name, organism.getName()))
 
     def draw(self):
         return self.skin

@@ -53,7 +53,7 @@ class Antelope(Animal):
             return
         if(random.random() < 0.5):
             self.kill()
-            self.world.events.append("{} died to {}".format(self.name, organism.getName()))
+            self.world.addEvent("{} died to {}".format(self.name, organism.getName()))
             return
         if(random.random() < 0.5):
             moveRange = 1
@@ -73,7 +73,7 @@ class Antelope(Animal):
             self.prevY = self.y
             self.x = freeSpaces[randomIndex][0]
             self.y = freeSpaces[randomIndex][1]
-            self.world.events.append("{} escaped from {}".format(self.name, organism.getName()))
+            self.world.addEvent("{} escaped from {}".format(self.name, organism.getName()))
         else:
             self.kill()
-            self.world.events.append("{} died to {}".format(self.name, organism.getName()))
+            self.world.addEvent("{} died to {}".format(self.name, organism.getName()))

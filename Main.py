@@ -13,7 +13,7 @@ class Frames(object):
         newwin.state('zoomed')
 
         if(restore):
-            world = World(10, 1)
+            world = World(20, 1)
             success = world.loadFromFile("save.txt")
             if(not success):
                 world = World(20, 1)

@@ -29,7 +29,7 @@ class Turtle(Animal):
         else:
             if(5 > organism.getStrength()):
                 organism.moveBack()
-                self.world.events.append("{} reflected attack of {}".format(self.name, organism.getName()))
+                self.world.addEvent("{} reflected attack of {}".format(self.name, organism.getName()))
             else:
                 self.kill()
-                self.world.events.append("{} died to {}".format(self.name, organism.getName()))
+                self.world.addEvent("{} died to {}".format(self.name, organism.getName()))

@@ -29,25 +29,25 @@ class Human(Animal):
 
     def usePotion(self):
         self.strength = 10
-        self.world.events.append("{} has used a potion".format(self.name))
+        self.world.addEvent("{} has used a potion".format(self.name))
 
     def getStrength(self):
         return self.strength
 
     def action(self):
         if(self.strength == self.baseStrength):
-            self.world.events.append("{} has a potion".format(self.name))
+            self.world.addEvent("{} has a potion".format(self.name))
         else:
             self.strength -= 1
-        self.world.events.append("{} has {} strength".format(self.name, self.strength))
+        self.world.addEvent("{} has {} strength".format(self.name, self.strength))
         if(self.x + self.directionX < 0 or self.x + self.directionX >= self.world.size or self.y + self.directionY < 0 or self.y + self.directionY >= self.world.size):
             self.directionX = self.directionX*-1
             self.directionY = self.directionY*-1
             self.x += self.directionX
             self.y += self.directionY
-            self.world.events.append("{} has no way forwards and is going backwards".format(self.name))
+            self.world.addEvent("{} has no way forwards and is going backwards".format(self.name))
         else:
             self.x += self.directionX
             self.y += self.directionY
-            self.world.events.append("{} has moved to x:{} y:{}".format(self.name, self.x, self.y))
+            self.world.addEvent("{} has moved to x:{} y:{}".format(self.name, self.x, self.y))
         self.checkKraksa()

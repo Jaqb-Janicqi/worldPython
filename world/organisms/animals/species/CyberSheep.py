@@ -36,7 +36,7 @@ class CyberSheep(Animal):
         closestWeedPos = self.world.findClosestWeed(self.x, self.y)
         if(closestWeedPos != None):
             self.moveTo(closestWeedPos[0], closestWeedPos[1])
-            self.world.events.append("{} is tracking Sosnowsky Hogweed at x: {} y: {}".format(self.name, closestWeedPos[0], closestWeedPos[1]))
+            self.world.addEvent("{} is tracking Sosnowsky Hogweed at x: {} y: {}".format(self.name, closestWeedPos[0], closestWeedPos[1]))
         else:
-            self.world.events.append("{} has no Sosnowsky Hogweed to track".format(self.name))
+            self.world.addEvent("{} has no Sosnowsky Hogweed to track".format(self.name))
             self.move()
