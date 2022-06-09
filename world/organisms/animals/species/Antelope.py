@@ -19,60 +19,53 @@ class Antelope(Animal):
 
     def move(self):
         if(random.random() < 0.5):
-            range = 1
+            moveRange = 1
         else:
-            range = 2
+            moveRange = 2
 
         if(random.random() < 0.5):
             if(random.random() < 0.5):
-                if(self.x < self.world.size - range):
-                    self.x += range
+                if(self.world.isInBounds(self.x + moveRange, self.y)):
+                    self.x += moveRange
                 else:
-                    self.x -= range
+                    self.x -= moveRange
             else:
-                if(self.y < self.world.size - range):
-                    self.y += range
+                if(self.world.isInBounds(self.x - moveRange, self.y)):
+                    self.x -= moveRange
                 else:
-                    self.y -= range
+                    self.x += moveRange
         else:
             if(random.random() < 0.5):
-                if(self.x > 0):
-                    self.x -= range
+                if(self.world.isInBounds(self.x, self.y + moveRange)):
+                    self.y += moveRange
                 else:
-                    self.x += range
+                    self.y -= moveRange
             else:
-                if(self.y > 0):
-                    self.y -= range
+                if(self.world.isInBounds(self.x, self.y - moveRange)):
+                    self.y -= moveRange
                 else:
-                    self.y += range
-
-    def action(self):
-        if(self.alive):
-            self.move()
+                    self.y += moveRange
+        self.checkKraksa()
 
     def collision(self, organism):
-        if(self.id == organism.getId()):
-            self.spawnNewOrgnism(self, organism, self.world)
+        if(self.id == organism.getId() and self.animal == organism.isAnimal()):
+            self.spawnNewOrganism(self, organism, self.world)
             return
-
-        if(random, random() < 0.5):
+        if(random.random() < 0.5):
             self.kill()
             self.world.events.append("{} died to {}".format(self.name, organism.getName()))
             return
-
-        freeSpaces = []
         if(random.random() < 0.5):
-            range = 1
+            moveRange = 1
         else:
-            range = 2
-
-        for x in range(self.x - range, self.x + range):
-            for y in range(self.y - range, self.y + range):
-                if(x >= 0 and x < self.world.size and y >= 0 and y < self.world.size):
-                    if(x >= 0 and x < self.world.size and y >= 0 and y < self.world.size):
-                        if(x != y and (x == self.x or y == self.y)):
-                            if(self.world.isFreeFromStronger(x, y, self.strength)):
-                                freeSpaces.append([x, y])
+            moveRange = 2
+        
+        freeSpaces = []
+        for x in range(self.x - moveRange, self.x + moveRange+1):
+            for y in range(self.y - moveRange, self.y + moveRange+1):
+                if(self.world.isInBounds(x, y) and self.world.isFreeFromStronger(x, y)):
+                    if(x != y):
+                        freeSpaces.append([x, y])
 
         if(len(freeSpaces) > 0):
             randomIndex = random.randint(0, freeSpaces.__len__() - 1)

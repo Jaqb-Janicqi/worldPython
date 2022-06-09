@@ -24,12 +24,12 @@ class Turtle(Animal):
             self.notMoved()
 
     def collision(self, organism):
-        if(self.id != organism.getId()):
+        if(self.id == organism.getId() and self.animal == organism.isAnimal()):
+            self.spawnNewOrganism(self)
+        else:
             if(5 > organism.getStrength()):
                 organism.moveBack()
                 self.world.events.append("{} reflected attack of {}".format(self.name, organism.getName()))
             else:
                 self.kill()
                 self.world.events.append("{} died to {}".format(self.name, organism.getName()))
-        else:
-            self.spawnNewOrgnism(self, organism, self.world)

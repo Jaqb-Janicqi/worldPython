@@ -21,10 +21,9 @@ class Fox(Animal):
         freeSpaces = []
         for x in range(self.x - 1, self.x + 1):
             for y in range(self.y - 1, self.y + 1):
-                if(x >= 0 and x < self.world.size and y >= 0 and y < self.world.size):
+                if(self.world.isInBounds(x, y) and self.world.isFreeFromStronger(x, y, self.strength)):
                     if(x != y):
-                        if(self.world.isFreeFromStronger(x, y, self.strength)):
-                            freeSpaces.append([x, y])
+                        freeSpaces.append([x, y])
 
         if(len(freeSpaces) > 0):
             randomIndex = random.randint(0, freeSpaces.__len__() - 1)
@@ -32,3 +31,4 @@ class Fox(Animal):
             self.prevY = self.y
             self.x = freeSpaces[randomIndex][0]
             self.y = freeSpaces[randomIndex][1]
+            self.checkKraksa()

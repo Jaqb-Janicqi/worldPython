@@ -58,7 +58,7 @@ class Organism():
     def action(self):
         pass
 
-    def spawnNewOrgnism(self, organism):
+    def spawnNewOrganism(self, organism):
         smallerX = None
         biggerX = None
         smallerY = None
@@ -79,10 +79,9 @@ class Organism():
             biggerY = organism.gety()
 
         freeSpaces = []
-
         for i in range(smallerX, biggerX + 1):
             for j in range(smallerY, biggerY + 1):
-                if(self.world.isFree(i, j)):
+                if(self.world.isInBounds(i, j) and self.world.isFree(i, j)):
                     freeSpaces.append([i, j])
 
         if(len(freeSpaces) > 0):
@@ -92,15 +91,16 @@ class Organism():
             self.world.addOrganism(self.id, self.animal, freeSpaces[randomIndex][0], freeSpaces[randomIndex][1])
 
     def collision(self, organism):
-        if(self.id != organism.getId()):
+        if(self.id == organism.getId() and self.animal == organism.isAnimal()):
+            self.spawnNewOrganism(organism)
+            organism.moveBack()
+        else:
             if(self.strength > organism.getStrength()):
                 organism.kill()
-                self.world.events.append("{} killed {}".format(self.name, organism.getName()))
+                self.world.events.append("{} killed {}".format(organism.getName(), self.name))
             else:
                 self.kill()
                 self.world.events.append("{} was killed by {}".format(self.name, organism.getName()))
-        else:
-            self.spawnNewOrgnism(self, organism, self.world)
 
     def draw(self):
         return self.skin

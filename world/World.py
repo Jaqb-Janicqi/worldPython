@@ -12,7 +12,7 @@ from world.organisms.plants.species.Grass import Grass
 from world.organisms.plants.species.Guarana import Guarana
 from world.organisms.plants.species.SosnowskyHogweed import SosnowskyHogweed
 from world.organisms.plants.species.SowThistle import SowThistle
-from world.organisms.plants.species.Belladona import Belladona 
+from world.organisms.plants.species.Belladona import Belladona  
 # from world.organisms.plants.species import *
 
 
@@ -35,20 +35,21 @@ class World:
         return self.events
 
     def isFree(self, x, y):
-        if(x < 0 or y < 0 or x >= self.size or y >= self.size):
-            return False
         for organism in self.organisms:
             if(organism.getx() == x and organism.gety() == y and organism.alive):
                 return False
         return True
 
     def isFreeFromStronger(self, x, y, strength):
-        if(x < 0 or y < 0 or x >= self.size or y >= self.size):
-            return False
         for organism in self.organisms:
             if(organism.getx() == x and organism.gety() == y and organism.isAlive() and organism.getStrength() >= strength):
                 return False
         return True
+
+    def isInBounds(self, x, y):
+        if(x >= 0 and x < self.size and y >= 0 and y < self.size):
+            return True
+        return False
 
     def addOrganism(self, id, animal, x, y):
         newOrganism = None
@@ -58,11 +59,10 @@ class World:
                     return
                 newOrganism = Human(self, x, y)
                 self.human = newOrganism
-                # for x in range(-self.spawnProtectSize, self.spawnProtectSize):
-                #     for y in range(-self.spawnProtectSize, self.spawnProtectSize):
-                #         if(self.isFree(self.human.getx() + x, self.human.gety() + y)):
-                #             if(not (x == self.human.getx() and y == self.human.gety())):
-                #                 self.addOrganism(1, False, self.human.getx() + x, self.human.gety() + y)
+                for x in range(self.human.x - self.spawnProtectSize, self.human.x + self.spawnProtectSize+1):
+                    for y in range(self.human.y - self.spawnProtectSize, self.human.y + self.spawnProtectSize+1):
+                        if(self.isInBounds(x, y) and not (x == self.human.x and y == self.human.y)):
+                            self.addOrganism(1, False, x, y)
             elif(id == 1):
                 newOrganism = Wolf(self, x, y)
             elif(id == 2):
@@ -135,8 +135,8 @@ class World:
         self.addOrganism(id, animal, x, y)
 
     def populate(self):
-        self.spawnOrganism(9999, True)      #human
-        for i in range (0, int(self.size/5)):
+        for i in range (int(self.size/5)):
+            self.spawnOrganism(9999, True)      #human
             
             self.spawnOrganism(1, True)       #add animals
             self.spawnOrganism(2, True)

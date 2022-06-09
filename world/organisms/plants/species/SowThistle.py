@@ -1,4 +1,5 @@
 
+import random
 from world.organisms.plants.Plant import Plant
 
 
@@ -14,7 +15,8 @@ class SowThistle(Plant):
         self.prevY = y
         self.strength = 0
         self.baseStrength = 0
-
+        
     def action(self):
-        for i in range(0, 3):
-            self.sew()
+        for i in range (3):
+            if(self.alive and random.randint(0, 100) < self.sewChance):
+                self.sew()

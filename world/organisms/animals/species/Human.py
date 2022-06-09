@@ -51,3 +51,4 @@ class Human(Animal):
             self.x += self.directionX
             self.y += self.directionY
             self.world.events.append("{} has moved to x:{} y:{}".format(self.name, self.x, self.y))
+        self.checkKraksa()

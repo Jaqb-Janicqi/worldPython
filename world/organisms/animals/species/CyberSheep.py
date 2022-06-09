@@ -32,7 +32,6 @@ class CyberSheep(Animal):
                     if(math.dist(p1, p2) < closestDistance):
                         closestDistance = math.dist(p1, p2)
                         closestWeed = organism
-
         return closestWeed
 
     def moveTo(self, x, y):
