@@ -81,12 +81,7 @@ class Frames(object):
                 self.y = y
 
             def button_command(self):
-                # allows only one tooltip at the time (per tile)
-                if position_log.count((self.x, self.y)) < 1:
-                    tooltip_win((self.x, self.y))
-                    position_log.append((self.x, self.y))
-
-                print(position_log.count((self.x, self.y)))
+                tooltip_win((self.x, self.y))
 
             def create(self):
                 self.button = Button(newwin, text='', command=self.button_command, height=1, width=3)
@@ -139,11 +134,11 @@ class Frames(object):
         loadButton = Button(newwin, text="Load", command=load)
         loadButton.grid(row=3, column=1 + worldSize)
 
-        # strengthDisplay = Label(newwin, text="Strength: " + humanStrength)
-        # strengthDisplay.grid(row=5, column=1 + worldSize)
-
         showEventsButton = Button(newwin, text="Show events", command=showEvents)
         showEventsButton.grid(row=4, column=1 + worldSize)
+
+        exitButton = Button(newwin, text="Exit", command=root.destroy)
+        exitButton.grid(row=5, column=1 + worldSize)
 
         def chooseOrganism(x, y, world):
             choose = Toplevel(root)
